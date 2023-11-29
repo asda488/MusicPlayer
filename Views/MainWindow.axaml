@@ -28,6 +28,16 @@
                     MaterialOpacity="0.85" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
+        <Grid ColumnDefinitions="auto" RowDefinitions="*, 2*, *, 2*, *">
+            <Grid ColumnDefinitions="*, 3*" RowDefinitions="auto">
+                <TextBox Grid.Column="0" Watermark="Search for Albums...." />
+                <TextBlock Grid.Column="1" Text="Music" HorizontalAlignment="Stretch" />
+            </Grid>
+            <Button Grid.Row="1" Content="Left" />
+            <Button Grid.Row="2" Content="Left" />
+            <Button Grid.Row="3" Content="Left" />
+            <Button Grid.Row="4" Content="Left" />
+        </Grid>
     </Panel>
 
 </Window>
