@@ -3,21 +3,21 @@
         xmlns:vm="using:MusicPlayer.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" Width="1920" Height="1080"
         x:Class="MusicPlayer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="MusicPlayer"
         TransparencyLevelHint="AcrylicBlur"
         Background="Transparent"
-        ExtendClientAreaToDecorationsHint="True">
+        ExtendClientAreaToDecorationsHint="True"
+        WindowState="Maximized">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
     <Panel>
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
@@ -28,16 +28,29 @@
                     MaterialOpacity="0.85" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
-        <Grid ColumnDefinitions="auto" RowDefinitions="*, 2*, *, 2*, *">
-            <Grid ColumnDefinitions="*, 3*" RowDefinitions="auto">
-                <TextBox Grid.Column="0" Watermark="Search for Albums...." />
-                <TextBlock Grid.Column="1" Text="Music" HorizontalAlignment="Stretch" />
+        <Border Margin="19.2" BorderBrush="Gainsboro" BorderThickness="3" CornerRadius="2">
+            <Grid ColumnDefinitions="*" RowDefinitions="*, 2*, *, 2*, *">
+                <Grid Grid.Row="0" ColumnDefinitions="*, 3*" RowDefinitions="*">
+                    <TextBox Grid.Column="0" Watermark="Search" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="Music" Classes="heading" />
+                </Grid>
+                <Grid Grid.Row="1" ColumnDefinitions="4*, 3*, 3*, 3*, 3*" RowDefinitions="*">
+                    <Grid RowDefinitions="*, *"  ColumnDefinitions="*">
+                        <Button Grid.Row="0" Classes="sidePanel">Home</Button>
+                        <Button Grid.Row="1" Classes="sidePanel">Playlists</Button>
+                    </Grid>
+                    <TextBlock Grid.Column="1" Text="Music" HorizontalAlignment="Center" /> <!-- item repeater template -->
+                    <TextBlock Grid.Column="2" Text="Music" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Column="3" Text="Music" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Column="4" Text="Music" HorizontalAlignment="Center" />
+                </Grid>
+                <TextBlock Grid.Row="2" Text="Playlists" Classes="heading" />
+                <Grid Grid.Row="3" ColumnDefinitions="*, *" RowDefinitions="*">
+                    <TextBlock Grid.Column="0" Text="Playlist" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Text="Playlist" HorizontalAlignment="Center" />
+                </Grid>
+                <TextBlock Grid.Row="4" Text="bottom bar" />
             </Grid>
-            <Button Grid.Row="1" Content="Left" />
-            <Button Grid.Row="2" Content="Left" />
-            <Button Grid.Row="3" Content="Left" />
-            <Button Grid.Row="4" Content="Left" />
-        </Grid>
+        </Border>
     </Panel>
-
 </Window>
