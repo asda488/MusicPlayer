@@ -10,7 +10,6 @@ namespace MusicPlayer.Models {
         public List<string> Artists { get; set;}
         public List<string> Albums { get; set;}
         public Image SongImage { get; set;}
-        public 
 
         public Song(int songID, string title, int length, List<string> artists, Image songImage, List<string> albums) {
             SongID = songID;
