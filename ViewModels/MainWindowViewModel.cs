@@ -1,8 +1,14 @@
-﻿namespace MusicPlayer.ViewModels;
+﻿using MusicPlayer.Models;
+using ReactiveUI;
+using System;
+using System.Reactive.Concurrency;
+
+namespace MusicPlayer.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-#pragma warning disable CA1822 // Mark members as static
-    public string Greeting => "Welcome to Avalonia!";
-#pragma warning restore CA1822 // Mark members as static
+    public MainWindowViewModel(){
+        Database.LoadData();
+        Console.WriteLine("a");
+    }
 }
