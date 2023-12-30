@@ -3,6 +3,7 @@
         xmlns:vm="using:MusicPlayer.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ic="using:FluentIcons.Avalonia"
         mc:Ignorable="d" Width="1920" Height="1080"
         x:Class="MusicPlayer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -29,7 +30,7 @@
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
         <Border Margin="19.2">
-            <Grid ColumnDefinitions="*" RowDefinitions="*, 2*, *, 2*, *">
+            <Grid Classes="mainGrid" ColumnDefinitions="*" RowDefinitions="*, 2*, *, 2*, *">
                 <Grid Grid.Row="0" ColumnDefinitions="*, 3*" RowDefinitions="*">
                     <TextBox Grid.Column="0" Watermark="Search" VerticalAlignment="Center"/>
                     <TextBlock Grid.Column="1" Text="Music" Classes="heading" />
@@ -49,7 +50,33 @@
                     <TextBlock Grid.Column="0" Text="Playlist" HorizontalAlignment="Center" />
                     <TextBlock Grid.Column="1" Text="Playlist" HorizontalAlignment="Center" />
                 </Grid>
-                <TextBlock Grid.Row="4" Text="bottom bar" />
+                <Border Grid.Row="4" BorderBrush="#ff494949" BorderThickness="2" CornerRadius="0.75">
+                    <RelativePanel Margin="20">
+                        <ToggleButton Command="{Binding TogglePlayPause}" CommandParameter="{Binding $self.IsChecked}" x:Name="playpause" Classes="playpause" RelativePanel.AlignHorizontalCenterWithPanel="True">     
+                            <Panel>
+                                <Viewbox>  
+                                    <ic:SymbolIcon Classes="play" Symbol="Play"/>
+                                </Viewbox>
+                                <Viewbox>
+                                    <ic:SymbolIcon Classes="pause" Symbol="Pause"/>
+                                </Viewbox>
+                            </Panel>
+                        </ToggleButton>
+                        <ToggleButton Classes="normaltoggle" RelativePanel.LeftOf="playpause">     
+                            <Viewbox>  
+                                <ic:SymbolIcon Symbol="ArrowShuffle"/>
+                            </Viewbox>
+                        </ToggleButton>
+                        <ToggleButton Classes="normaltoggle" RelativePanel.RightOf="playpause">     
+                            <Viewbox>  
+                                <ic:SymbolIcon Symbol="ArrowRepeatAll"/>
+                            </Viewbox>
+                        </ToggleButton>
+                        <Viewbox RelativePanel.AlignRightWithPanel="True" Margin="15, 0, 15, 0">  
+                            <ic:SymbolIcon Foreground="CornflowerBlue" Symbol="MusicNote2"/>
+                        </Viewbox>
+                    </RelativePanel>
+                </Border>
             </Grid>
         </Border>
     </Panel>

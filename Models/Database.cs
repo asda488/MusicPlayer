@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MusicPlayer.Models {
     class Database {
-        public static void LoadData(){
+        public static (List<Song>, List<Playlist>) LoadData(){
             List<Song> SongList = new();
             List<Playlist> PlaylistList = new();
             string dbLocation = ConfigurationManager.AppSettings["resourceLocation"] + @"\Assets\music.db";
@@ -48,6 +48,7 @@ namespace MusicPlayer.Models {
                     }
                 }
             } //using block automatically handles connection object closure
+            return (SongList, PlaylistList);
         }
     }
 }

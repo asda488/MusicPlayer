@@ -9,7 +9,6 @@ namespace MusicPlayer.Models {
         public string description { get; set; } 
         public byte[]? playlistImage { get; set; }
         public List<Song> playlistSongs { get; set;}
-
         public Playlist(int PlaylistID, string Title, string? Description, byte[]? PlaylistImage, List<Song>? PlaylistSongs) {
             playlistID = PlaylistID;
             title = Title;
