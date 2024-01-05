@@ -3,21 +3,22 @@
         xmlns:vm="using:MusicPlayer.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:ic="using:FluentIcons.Avalonia"
+        mc:Ignorable="d" Width="1920" Height="1080"
         x:Class="MusicPlayer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="MusicPlayer"
         TransparencyLevelHint="AcrylicBlur"
         Background="Transparent"
-        ExtendClientAreaToDecorationsHint="True">
+        ExtendClientAreaToDecorationsHint="True"
+        WindowState="Maximized">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
     <Panel>
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
@@ -25,9 +26,59 @@
                     BackgroundSource="Digger"
                     TintColor="Black"
                     TintOpacity="1"
-                    MaterialOpacity="0.85" />
+                    MaterialOpacity="0.75" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
+        <Border Margin="20">
+            <Grid Classes="mainGrid" ColumnDefinitions="*" RowDefinitions="3*, 3*, *">
+                <Grid Grid.Row="0" ColumnDefinitions="*, 3*" RowDefinitions="*">
+                    <Border Grid.Column="0" Classes="outline">
+                        <Grid RowDefinitions="*, 2*, 2*"  ColumnDefinitions="*">
+                            <TextBox Grid.Row="0" Watermark="Search" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+                            <Button Grid.Row="1" Classes="sidePanel" Command="{Binding ChangeView}" CommandParameter="Home">Home</Button>
+                            <Button Grid.Row="2" Classes="sidePanel">Playlists</Button>
+                        </Grid>
+                    </Border>
+                    <ContentControl Grid.Column="1" Content="{Binding TopViewModel}" />
+                </Grid>
+                <ContentControl Grid.Row="1" Content="{Binding BottomViewModel}" />
+                <Border Grid.Row="2" Classes="outline">
+                    <RelativePanel Margin="20">
+                        <Viewbox x:Name="ImageViewbox" RelativePanel.AlignLeftWithPanel="True">
+                            <Image Source="{Binding PlayerImage}" />
+                        </Viewbox>
+                        <TextBlock FontSize="18" RelativePanel.RightOf="ImageViewbox" RelativePanel.AlignTopWith="ImageViewbox" Text="{Binding Title}" Margin="2, 7, 0, 0"></TextBlock>
+                        <TextBlock FontSize="18" RelativePanel.RightOf="ImageViewbox" RelativePanel.AlignBottomWith="ImageViewbox" Text="{Binding Artist}" Margin="2, 0, 0, 7"></TextBlock>
+                        <ToggleButton IsEnabled="{Binding Enable}" IsChecked="True" Command="{Binding TogglePlayPause}" CommandParameter="{Binding $self.IsChecked}" x:Name="playpause" Classes="playpause" RelativePanel.AlignHorizontalCenterWithPanel="True">     
+                            <Panel>
+                                <Viewbox>  
+                                    <ic:SymbolIcon Classes="play" Symbol="Play"/>
+                                </Viewbox>
+                                <Viewbox>
+                                    <ic:SymbolIcon Classes="pause" Symbol="Pause"/>
+                                </Viewbox>
+                            </Panel>
+                        </ToggleButton>
+                        <ToggleButton IsEnabled="{Binding Enable}" Classes="normaltoggle" RelativePanel.LeftOf="playpause">     
+                            <Viewbox>  
+                                <ic:SymbolIcon Symbol="ArrowShuffle"/>
+                            </Viewbox>
+                        </ToggleButton>
+                        <ToggleButton IsEnabled="{Binding Enable}" Classes="normaltoggle" RelativePanel.RightOf="playpause">     
+                            <Viewbox>  
+                                <ic:SymbolIcon Symbol="ArrowRepeatAll"/>
+                            </Viewbox>
+                        </ToggleButton>
+                        <Viewbox RelativePanel.AlignRightWithPanel="True" Margin="15, 0, 15, 0">  
+                            <ic:SymbolIcon Foreground="CornflowerBlue" Symbol="MusicNote2"/>
+                        </Viewbox>
+                        <Panel x:Name="TimeSlider" RelativePanel.Below="playpause" RelativePanel.AlignHorizontalCenterWithPanel="True" Width="640">
+                            <Slider Maximum="{Binding Length}" Value="{Binding Elapsed}"/>
+                        </Panel>
+                        <TextBlock Margin="10, 0" RelativePanel.RightOf="TimeSlider" RelativePanel.AlignVerticalCenterWith="TimeSlider" Text="{Binding LengthString}" />
+                    </RelativePanel>
+                </Border>
+            </Grid>
+        </Border>
     </Panel>
-
 </Window>
