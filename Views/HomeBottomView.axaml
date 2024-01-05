@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:MusicPlayer.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MusicPlayer.Views.HomeBottomView"
+             x:DataType="vm:HomeBottomViewModel">
+  <Panel>
+    <Border Background="Transparent">
+      <Grid RowDefinitions="*, 5*">
+        <Border Grid.Row="0" Classes="outline">
+          <TextBlock Classes="heading" Text="Playlists" />
+        </Border>
+        <ItemsRepeater Grid.Row="1" ItemsSource="{Binding PlaylistTableau}" HorizontalAlignment="Center">
+          <ItemsRepeater.Layout>
+            <StackLayout Orientation="Horizontal" />
+          </ItemsRepeater.Layout>
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+              <Border Classes="outline" Width="960">
+                  <Grid ColumnDefinitions="*, *">
+                    <Viewbox Grid.Column="0" x:Name="PlaylistImg" Margin="5">
+                      <Image Source="{Binding PlaylistImage}" />
+                    </Viewbox>
+                    <Grid Grid.Column="1" RowDefinitions="*, 5*">
+                      <TextBlock Grid.Row="0" FontSize="16" x:Name="PlaylistTitle" Text="{Binding Title}" />
+                      <TextBlock TextWrapping="Wrap" Grid.Row="1" Text="{Binding Description}" />
+                    </Grid>
+                  </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+      </Grid>
+    </Border>
+  </Panel>
+</UserControl>

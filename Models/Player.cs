@@ -1,43 +1,39 @@
 using System;
-using System.Threading.Tasks;
 using Avalonia.Platform;
 using NAudio.Wave;
 
 namespace MusicPlayer.Models {
     class Player {
-        Song? song { get; set; }
-        long time { get; set; }
-        WaveOutEvent? waveOut { get; set; }
-        StreamMediaFoundationReader? reader { get; set; }
+        public Song? Song { get; set; }
+        public long Time { get; set; }
+        WaveOutEvent? WaveOut { get; set; }
+        public StreamMediaFoundationReader? Reader { get; set; }
         bool paused = false;
         public Player(long Time, Song? s){
-            time = Time;
-            song = s;
+            this.Time = Time;
+            Song = s;
         }
 
         public void LoadNew(){
-            if (song != null){
-                waveOut?.Dispose();
-                reader?.Dispose();
-                waveOut = new WaveOutEvent();
-                Console.WriteLine("avares://MusicPlayer/Assets/music/"+song.filename);
-                reader = new StreamMediaFoundationReader(AssetLoader.Open(new Uri("avares://MusicPlayer/Assets/music/"+song.filename)));
-                waveOut.Init(reader);
-                waveOut.PlaybackStopped += Stop;
-                reader.Position = time;
+            WaveOut?.Dispose();
+            Reader?.Dispose();
+            WaveOut = new WaveOutEvent();
+            Reader = new StreamMediaFoundationReader(AssetLoader.Open(new Uri("avares://MusicPlayer/Assets/music/"+Song.Filename)));
+            WaveOut.Init(Reader);
+            WaveOut.PlaybackStopped += Stop;
+            Reader.CurrentTime = new TimeSpan(0, 0, (int)Time);
             }
-        }
+
         public void Play(){
-            waveOut.Play();
+            WaveOut.Play();
         }
         public void Pause(){
             paused = true;
-            waveOut.Stop();
-            Stop(null, null);
+            WaveOut.Stop();
         }
         private void Stop(object? e, EventArgs? a){
             if (!paused){
-
+                
             }
             else {
                 paused = false;
