@@ -4,7 +4,6 @@ using Avalonia.Media.Imaging;
 using System;
 using System.IO;
 using Avalonia.Platform;
-using System.Reflection;
 
 namespace MusicPlayer.Models {
     class Database {
@@ -12,11 +11,11 @@ namespace MusicPlayer.Models {
             List<Song> SongList = new();
             List<Playlist> PlaylistList = new();
             using (Stream db = AssetLoader.Open(new Uri ("avares://MusicPlayer/Assets/music.db"))){
-                using(FileStream f = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "music.db"), FileMode.Create, FileAccess.Write)){
+                using (FileStream f = new FileStream(Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "music.db"), FileMode.Create, FileAccess.Write)){
                     db.CopyTo(f);
                 }
             }
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "music.db")};")){
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "music.db")};")){
                 connection.Open();
                 SqliteCommand command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM Songs";
