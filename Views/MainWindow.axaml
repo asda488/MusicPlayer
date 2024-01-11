@@ -43,7 +43,7 @@
                 </Grid>
                 <ContentControl Grid.Row="1" Content="{Binding BottomViewModel}" />
                 <Border Grid.Row="2" Classes="outline">
-                    <RelativePanel Margin="20">
+                    <RelativePanel Margin="10">
                         <Viewbox x:Name="ImageViewbox" RelativePanel.AlignLeftWithPanel="True">
                             <Image Source="{Binding PlayerImage}" />
                         </Viewbox>
@@ -69,7 +69,7 @@
                                 <ic:SymbolIcon Symbol="ArrowRepeatAll"/>
                             </Viewbox>
                         </ToggleButton>
-                        <Viewbox RelativePanel.AlignRightWithPanel="True" Margin="15, 0, 15, 0">  
+                        <Viewbox RelativePanel.AlignRightWithPanel="True" Margin="15, 0">  
                             <ic:SymbolIcon Foreground="CornflowerBlue" Symbol="MusicNote2"/>
                         </Viewbox>
                         <Panel x:Name="TimeSlider" RelativePanel.Below="playpause" RelativePanel.AlignHorizontalCenterWithPanel="True" Width="640">
