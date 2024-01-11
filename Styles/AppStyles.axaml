@@ -6,6 +6,9 @@
       <!-- Add Controls for Previewer Here -->
     </Border>
   </Design.PreviewWith>
+  <Style Selector="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource UbuntuFont}" />
+  </Style>
   <Style Selector="Button.sidePanel">
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
