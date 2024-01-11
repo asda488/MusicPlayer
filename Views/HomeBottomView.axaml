@@ -12,26 +12,28 @@
         <Border Grid.Row="0" Classes="outline">
           <TextBlock Classes="heading" Text="Playlists" />
         </Border>
-        <ItemsRepeater Grid.Row="1" ItemsSource="{Binding PlaylistTableau}" HorizontalAlignment="Center">
-          <ItemsRepeater.Layout>
-            <StackLayout Orientation="Horizontal" />
-          </ItemsRepeater.Layout>
-          <ItemsRepeater.ItemTemplate>
-            <DataTemplate>
-              <Border Classes="outline" Width="960">
-                  <Grid ColumnDefinitions="*, *">
-                    <Viewbox Grid.Column="0" x:Name="PlaylistImg" Margin="5">
-                      <Image Source="{Binding PlaylistImage}" />
-                    </Viewbox>
-                    <Grid Grid.Column="1" RowDefinitions="*, 5*">
-                      <TextBlock Grid.Row="0" FontSize="16" x:Name="PlaylistTitle" Text="{Binding Title}" />
-                      <TextBlock TextWrapping="Wrap" Grid.Row="1" Text="{Binding Description}" />
-                    </Grid>
-                  </Grid>
-              </Border>
-            </DataTemplate>
-          </ItemsRepeater.ItemTemplate>
-        </ItemsRepeater>
+        <Panel Grid.Row="1">
+          <ItemsRepeater ItemsSource="{Binding PlaylistTableau}" HorizontalAlignment="Center">
+            <ItemsRepeater.Layout>
+              <UniformGridLayout ItemsStretch="Fill" Orientation="Horizontal" MaximumRowsOrColumns="{Binding PlaylistTableau.Count}"/>
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+              <DataTemplate>
+                <Border Classes="outline">
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                      <Viewbox x:Name="PlaylistImg" Margin="5">
+                        <Image Source="{Binding PlaylistImage}" />
+                      </Viewbox>
+                      <Grid RowDefinitions="*, 5*">
+                        <TextBlock Grid.Row="0" FontSize="16" x:Name="PlaylistTitle" Text="{Binding Title}" />
+                        <TextBlock Width="{Binding #PlaylistImg.Bounds.Width}" TextWrapping="Wrap" Grid.Row="1" Text="{Binding Description}" />
+                      </Grid>
+                    </StackPanel>
+                </Border>
+              </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+          </ItemsRepeater>
+        </Panel>
       </Grid>
     </Border>
   </Panel>
