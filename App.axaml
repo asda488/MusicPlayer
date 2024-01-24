@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MusicPlayer.App"
              xmlns:local="using:MusicPlayer"
+             xmlns:v="using:MusicPlayer.Views"
              RequestedThemeVariant="Dark">
 
     <Application.DataTemplates>
@@ -9,6 +10,7 @@
     </Application.DataTemplates>
     <Application.Resources>
         <FontFamily x:Key="UbuntuFont">avares://MusicPlayer/Assets/Fonts/Ubuntu/Ubuntu-Regular.ttf</FontFamily>
+        <v:CurrentlyPlayingConverter x:Key="currentlyPlayingConverter"/>
     </Application.Resources> 
     <Application.Styles>
         <FluentTheme />

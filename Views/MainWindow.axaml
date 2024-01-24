@@ -30,13 +30,13 @@
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
         <Border Margin="20">
-            <Grid Classes="mainGrid" ColumnDefinitions="*" RowDefinitions="3*, 3*, *">
+            <Grid x:Name="MainGrid" Classes="mainGrid" ColumnDefinitions="*" RowDefinitions="3*, 3*, *">
                 <Grid Grid.Row="0" ColumnDefinitions="*, 3*" RowDefinitions="*">
                     <Border Grid.Column="0" Classes="outline">
                         <Grid RowDefinitions="*, 2*, 2*"  ColumnDefinitions="*">
                             <TextBox Grid.Row="0" Watermark="Search" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
-                            <Button Grid.Row="1" Classes="sidePanel" Command="{Binding ChangeView}" CommandParameter="Home">Home</Button>
-                            <Button Grid.Row="2" Classes="sidePanel">Playlists</Button>
+                            <Button Grid.Row="1" Classes="sidePanel" Command="{Binding ChangeViewCommand}" CommandParameter="Home">Home</Button>
+                            <Button Grid.Row="2" Classes="sidePanel" Command="{Binding ChangeViewCommand}" CommandParameter="Playlists">Playlists</Button>
                         </Grid>
                     </Border>
                     <ContentControl Grid.Column="1" Content="{Binding TopViewModel}" />

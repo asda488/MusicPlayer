@@ -5,14 +5,16 @@ using MusicPlayer.Models;
 using ReactiveUI;
 using Avalonia.Media.Imaging;
 using System;
+using Avalonia.Platform;
 
 namespace MusicPlayer.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
     public ICommand TogglePlayPause { get; }
-    public ICommand ChangeView { get; }
+    public ICommand ChangeViewCommand { get; }
     public ICommand ShuffleCommand { get; }
+    public ICommand EnterPlaylistCommand { get; }
 
     private List<Song> songTableau = new();
     private List<Playlist> playlistTableau = new();
@@ -23,6 +25,7 @@ public class MainWindowViewModel : ViewModelBase
     private string title;
     private string artist;
     private int length;
+    private int songID;
     private bool playIsChecked = true;
     private ObservableAsPropertyHelper<string> lengthString;
     private ObservableAsPropertyHelper<string> elapsedString;
@@ -40,6 +43,7 @@ public class MainWindowViewModel : ViewModelBase
     public Bitmap PlayerImage { get => playerImage; set => this.RaiseAndSetIfChanged(ref playerImage, value); }
     public string Title { get => title; set => this.RaiseAndSetIfChanged(ref title, value); }
     public string Artist { get => artist; set => this.RaiseAndSetIfChanged(ref artist, value); }
+    public int SongID { get => songID; set => this.RaiseAndSetIfChanged(ref songID, value); }
     public bool PlayIsChecked { get => playIsChecked; set => this.RaiseAndSetIfChanged(ref playIsChecked, value); }
     public int Length { get => length; set => this.RaiseAndSetIfChanged(ref length, value); }
     public string LengthString { get => lengthString.Value; }
@@ -57,12 +61,11 @@ public class MainWindowViewModel : ViewModelBase
         //startup
         (songList, playlistList) = Database.LoadData();
         PopulateTableaus();
+        playlistList.Add(new Playlist(playlistList.Count+1, "All Media", "All tracks in your library.", new(AssetLoader.Open(new Uri("avares://MusicPlayer/Assets/default-image.png"))), [.. songList]));
         player = new(0, null);
         player.PlayerFinished += NextSong;
 
         //command bindings
-        ICommand NewSong = ReactiveCommand.Create((int s) => {playlist = null; LoadSong(songList[s-1]);});
-        ICommand NewPlaylist = ReactiveCommand.Create((int p) => {LoadPlaylist(playlistList[p-1]);});
         ShuffleCommand = ReactiveCommand.Create(() => {
             if (shuffle && playlist != null && shuffleOrder == null){
                 NewShuffleOrder();
@@ -74,13 +77,8 @@ public class MainWindowViewModel : ViewModelBase
             else
                 player.Play();
             });
-        ChangeView = ReactiveCommand.Create((string s) => {
-            switch (s) {
-                case "Home":
-                    TopViewModel = new HomeTopViewModel(songTableau, NewSong);
-                    BottomViewModel = new HomeBottomViewModel(playlistTableau, NewPlaylist);
-                    break;
-            }});
+        ChangeViewCommand = ReactiveCommand.Create((string s) => {ChangeView(s);});
+        EnterPlaylistCommand = ReactiveCommand.Create((int pid) => {EnterPlaylist(pid);});
 
         //bindings to view
         lengthString = this.WhenAnyValue(x => x.Length, length => $"{(length / 60).ToString()}:{(length % 60).ToString().PadLeft(2, '0')}").ToProperty(this, x => x.LengthString);
@@ -91,9 +89,28 @@ public class MainWindowViewModel : ViewModelBase
         this.WhenAnyValue(x => x.player.Time).Subscribe(x => Elapsed = x);
 
         //init ui
-        ChangeView.Execute("Home");
+        ChangeView("Home");
     }
 
+    private void EnterPlaylist(int pid){
+        ICommand NewPlaylistSong = ReactiveCommand.Create((int sid) => {playlist = playlistList[pid-1]; LoadSong(songList[sid-1]);});
+        TopViewModel = new PlaylistTopViewModel(playlistList[pid-1]);
+        BottomViewModel = new PlaylistBottomViewModel(playlistList[pid-1], NewPlaylistSong);
+    }
+    private void ChangeView(string s){
+        switch (s) {
+            case "Home":
+                ICommand NewSong = ReactiveCommand.Create((int s) => {playlist = null; LoadSong(songList[s-1]);});
+                ICommand NewPlaylist = ReactiveCommand.Create((int p) => {LoadPlaylist(playlistList[p-1]);});
+                TopViewModel = new HomeTopViewModel(songTableau, NewSong);
+                BottomViewModel = new HomeBottomViewModel(playlistTableau, NewPlaylist);
+                break;
+            case "Playlists":
+                TopViewModel = new PlaylistsTopViewModel();
+                BottomViewModel = new PlaylistsBottomViewModel();
+                break;              
+        }
+    }
     private void LoadSong(Song s){
         Enable = false;
         Elapsed = 0;
@@ -103,6 +120,7 @@ public class MainWindowViewModel : ViewModelBase
         Title = player.Song.Title;
         Artist = player.Song.Artist;
         Length = player.Song.Length;
+        SongID = player.Song.SongID;
         Enable = true;
     }
 

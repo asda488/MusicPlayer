@@ -13,8 +13,8 @@ namespace MusicPlayer.Models {
             this.PlaylistID = PlaylistID;
             this.Title = Title;
             this.Description = Description ?? string.Empty; //catch null
-            this.PlaylistImage = PlaylistImage; //nullable
-            this.Songs = Songs ?? new List<Song>();
+            this.PlaylistImage = PlaylistImage;
+            this.Songs = Songs ?? [];
         }
 
     }

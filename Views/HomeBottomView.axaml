@@ -15,7 +15,7 @@
         <Panel Grid.Row="1">
           <ItemsRepeater ItemsSource="{Binding PlaylistTableau}" HorizontalAlignment="Center">
             <ItemsRepeater.Layout>
-              <UniformGridLayout ItemsStretch="Fill" Orientation="Horizontal" MaximumRowsOrColumns="{Binding PlaylistTableau.Count}"/>
+              <UniformGridLayout ItemsStretch="Fill" Orientation="Horizontal"/>
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>

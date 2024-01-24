@@ -13,9 +13,9 @@
           <TextBlock Classes="heading" Text="Music" />
         </Border>
         <Panel Grid.Row="1" VerticalAlignment="Stretch">
-          <ItemsRepeater  ItemsSource="{Binding SongTableau}" HorizontalAlignment="Center">
+          <ItemsRepeater ItemsSource="{Binding SongTableau}" HorizontalAlignment="Center">
             <ItemsRepeater.Layout>
-              <UniformGridLayout MinItemHeight="{Binding $parent[Panel].Bounds.Height}" Orientation="Horizontal" ItemsStretch="Fill" MaximumRowsOrColumns="{Binding SongTableau.Count}"/>
+              <UniformGridLayout MinItemHeight="{Binding $parent[Panel].Bounds.Height}" Orientation="Horizontal" ItemsStretch="Fill"/>
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
