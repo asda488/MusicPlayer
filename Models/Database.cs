@@ -22,8 +22,13 @@ namespace MusicPlayer.Models {
                 using (var d = command.ExecuteReader()){
                     while (d.Read()){
                         Bitmap image;
-                        using (var ms = new MemoryStream((byte[])d[4])){
-                            image = new Bitmap(ms);
+                        if (d[4] is DBNull){
+                            image = new(AssetLoader.Open(new Uri("avares://MusicPlayer/Assets/default-image.png")));
+                        }
+                        else {
+                            using (var ms = new MemoryStream((byte[])d[4])){
+                                image = new Bitmap(ms);
+                            }
                         }
                         SongList.Add(new Song((int)(long)d[0], (string)d[1], (int)(long)d[2], (string)d[3], image, null, null));
                     }
@@ -44,9 +49,8 @@ namespace MusicPlayer.Models {
                 using (var d = command.ExecuteReader()){
                     while (d.Read()){
                         Bitmap? image;
-                        Console.WriteLine(d[3]);
                         if (d[3] is DBNull){
-                            image = new(AssetLoader.Open(new Uri("avares://MusicPlayer/Assets/default-playlist-image.png")));
+                            image = new(AssetLoader.Open(new Uri("avares://MusicPlayer/Assets/default-image.png")));
                         }
                         else {
                             using (var ms = new MemoryStream((byte[])d[3])){
@@ -59,7 +63,7 @@ namespace MusicPlayer.Models {
                 command.CommandText = $"SELECT * FROM PlaylistSong";
                 using (var d = command.ExecuteReader()){
                     while (d.Read()){
-                        PlaylistList[(int)(long)d[0]-1].PlaylistSongs.Add(SongList[(int)(long)d[1]-1]);
+                        PlaylistList[(int)(long)d[0]-1].Songs.Add(SongList[(int)(long)d[1]-1]);
                     }
                 }
             } //using block automatically handles connection object closure

@@ -8,13 +8,13 @@ namespace MusicPlayer.Models {
         public string Title { get; set; }
         public string Description { get; set; } 
         public Bitmap PlaylistImage { get; set; }
-        public List<Song> PlaylistSongs { get; set;}
-        public Playlist(int PlaylistID, string Title, string? Description, Bitmap PlaylistImage, List<Song>? PlaylistSongs) {
+        public List<Song> Songs { get; set;}
+        public Playlist(int PlaylistID, string Title, string? Description, Bitmap PlaylistImage, List<Song>? Songs) {
             this.PlaylistID = PlaylistID;
             this.Title = Title;
             this.Description = Description ?? string.Empty; //catch null
             this.PlaylistImage = PlaylistImage; //nullable
-            this.PlaylistSongs = PlaylistSongs ?? new List<Song>();
+            this.Songs = Songs ?? new List<Song>();
         }
 
     }

@@ -401,5 +401,5 @@ FodyWeavers.xsd
 #DBBrowser
 .db-journal
 
-#temp fix for .db file
-app.config
+#line count
+.VSCodeCounter

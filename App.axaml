@@ -7,13 +7,11 @@
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
+    <Application.Resources>
+        <FontFamily x:Key="UbuntuFont">avares://MusicPlayer/Assets/Fonts/Ubuntu/Ubuntu-Regular.ttf</FontFamily>
+    </Application.Resources> 
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="/Styles/AppStyles.axaml" />
     </Application.Styles>
-
-    <Application.Resources>
-        <FontFamily x:Key="UbuntuFont">avares://MusicPlayer/Assets/Fonts/Ubuntu/Ubuntu-Regular.ttf</FontFamily>
-    </Application.Resources>
 </Application>

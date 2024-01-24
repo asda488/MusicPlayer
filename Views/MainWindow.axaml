@@ -47,9 +47,9 @@
                         <Viewbox x:Name="ImageViewbox" RelativePanel.AlignLeftWithPanel="True">
                             <Image Source="{Binding PlayerImage}" />
                         </Viewbox>
-                        <TextBlock FontSize="18" RelativePanel.RightOf="ImageViewbox" RelativePanel.AlignTopWith="ImageViewbox" Text="{Binding Title}" Margin="2, 7, 0, 0"></TextBlock>
-                        <TextBlock FontSize="18" RelativePanel.RightOf="ImageViewbox" RelativePanel.AlignBottomWith="ImageViewbox" Text="{Binding Artist}" Margin="2, 0, 0, 7"></TextBlock>
-                        <ToggleButton IsEnabled="{Binding Enable}" IsChecked="True" Command="{Binding TogglePlayPause}" CommandParameter="{Binding $self.IsChecked}" x:Name="playpause" Classes="playpause" RelativePanel.AlignHorizontalCenterWithPanel="True">     
+                        <TextBlock FontSize="18" RelativePanel.RightOf="ImageViewbox" RelativePanel.AlignTopWith="ImageViewbox" Text="{Binding Title}" Margin="5, 7, 0, 0"></TextBlock>
+                        <TextBlock FontSize="18" RelativePanel.RightOf="ImageViewbox" RelativePanel.AlignBottomWith="ImageViewbox" Text="{Binding Artist}" Margin="5, 0, 0, 7"></TextBlock>
+                        <ToggleButton IsEnabled="{Binding Enable}" IsChecked="{Binding PlayIsChecked}" Command="{Binding TogglePlayPause}" x:Name="playpause" Classes="playpause" RelativePanel.AlignHorizontalCenterWithPanel="True">     
                             <Panel>
                                 <Viewbox>  
                                     <ic:SymbolIcon Classes="play" Symbol="Play"/>
@@ -59,12 +59,12 @@
                                 </Viewbox>
                             </Panel>
                         </ToggleButton>
-                        <ToggleButton IsEnabled="{Binding Enable}" Classes="normaltoggle" RelativePanel.LeftOf="playpause">     
+                        <ToggleButton IsChecked="{Binding Shuffle}" IsEnabled="{Binding Enable}" Command="{Binding ShuffleCommand}" Classes="normaltoggle" RelativePanel.LeftOf="playpause">     
                             <Viewbox>  
                                 <ic:SymbolIcon Symbol="ArrowShuffle"/>
                             </Viewbox>
                         </ToggleButton>
-                        <ToggleButton IsEnabled="{Binding Enable}" Classes="normaltoggle" RelativePanel.RightOf="playpause">     
+                        <ToggleButton IsChecked="{Binding Loop}" IsEnabled="{Binding Enable}" Classes="normaltoggle" RelativePanel.RightOf="playpause">     
                             <Viewbox>  
                                 <ic:SymbolIcon Symbol="ArrowRepeatAll"/>
                             </Viewbox>
@@ -73,9 +73,10 @@
                             <ic:SymbolIcon Foreground="CornflowerBlue" Symbol="MusicNote2"/>
                         </Viewbox>
                         <Panel x:Name="TimeSlider" RelativePanel.Below="playpause" RelativePanel.AlignHorizontalCenterWithPanel="True" Width="640">
-                            <Slider Maximum="{Binding Length}" Value="{Binding Elapsed}"/>
+                            <Slider Maximum="{Binding Length}" Value="{Binding ElapsedConverter}"/>
                         </Panel>
                         <TextBlock Margin="10, 0" RelativePanel.RightOf="TimeSlider" RelativePanel.AlignVerticalCenterWith="TimeSlider" Text="{Binding LengthString}" />
+                        <TextBlock Margin="10, 0" RelativePanel.LeftOf="TimeSlider" RelativePanel.AlignVerticalCenterWith="TimeSlider" Text="{Binding ElapsedString}" />
                     </RelativePanel>
                 </Border>
             </Grid>

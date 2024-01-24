@@ -17,6 +17,21 @@
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="FontSize" Value="48" />    
   </Style>
+  <Style Selector="Button.clickableTile">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Button.clickableTile:pointerover /template/ ContentPresenter">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Button.clickableTile:pressed /template/ ContentPresenter">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
   <Style Selector="Border.outline">
     <Setter Property="BorderBrush" Value="#ff494949" />
     <Setter Property="BorderThickness" Value="2.5" />

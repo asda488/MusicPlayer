@@ -20,13 +20,15 @@
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
                 <Border Classes="outline">
-                  <Grid RowDefinitions="18*, *, 2*, 2*" Margin="24, 0">
-                    <Viewbox Grid.Row="0" HorizontalAlignment="Center">
-                      <Image Source="{Binding Image}" />
-                    </Viewbox>
-                    <TextBlock Grid.Row="2" FontSize="16" HorizontalAlignment="Left" Text="{Binding Title}" />
-                    <TextBlock Grid.Row="3" FontSize="16" HorizontalAlignment="Left" Text="{Binding Artist}" />
-                  </Grid>                
+                  <Button Classes="clickableTile" Command="{Binding $parent[Panel].((vm:HomeTopViewModel)DataContext).NewSong}" CommandParameter="{Binding SongID}">
+                    <Grid RowDefinitions="18*, *, 2*, 2*" Margin="24, 0">
+                      <Viewbox Grid.Row="0" HorizontalAlignment="Center">
+                        <Image Source="{Binding Image}" />
+                      </Viewbox>
+                      <TextBlock Grid.Row="2" FontSize="16" HorizontalAlignment="Left" Text="{Binding Title}" />
+                      <TextBlock Grid.Row="3" FontSize="16" HorizontalAlignment="Left" Text="{Binding Artist}" />
+                    </Grid>
+                  </Button>
                 </Border>
               </DataTemplate>
             </ItemsRepeater.ItemTemplate>

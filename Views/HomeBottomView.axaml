@@ -20,15 +20,17 @@
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
                 <Border Classes="outline">
+                  <Button Classes="clickableTile" Command="{Binding $parent[Panel].((vm:HomeBottomViewModel)DataContext).NewPlaylist}" CommandParameter="{Binding PlaylistID}">
                     <StackPanel Margin="5" Orientation="Horizontal">
                       <Viewbox x:Name="PlaylistImg" Margin="5">
                         <Image Source="{Binding PlaylistImage}" />
                       </Viewbox>
                       <Grid RowDefinitions="*, 5*">
-                        <TextBlock Grid.Row="0" FontSize="16" x:Name="PlaylistTitle" Text="{Binding Title}" />
-                        <TextBlock Width="{Binding #PlaylistImg.Bounds.Width}" TextWrapping="Wrap" Grid.Row="1" Text="{Binding Description}" />
+                        <TextBlock Grid.Row="0" FontSize="24" x:Name="PlaylistTitle" Text="{Binding Title}" />
+                        <TextBlock Width="{Binding #PlaylistImg.Bounds.Width}" FontSize="18" TextWrapping="Wrap" Grid.Row="1" Text="{Binding Description}" />
                       </Grid>
                     </StackPanel>
+                  </Button> 
                 </Border>
               </DataTemplate>
             </ItemsRepeater.ItemTemplate>
