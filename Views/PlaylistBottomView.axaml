@@ -8,27 +8,38 @@
              x:Class="MusicPlayer.Views.PlaylistBottomView"
              x:DataType="vm:PlaylistBottomViewModel">
   <Panel>
-    <ScrollViewer>
-      <ItemsRepeater ItemsSource="{Binding DisplayPlaylist.Songs}">
-        <ItemsRepeater.ItemTemplate>
-          <DataTemplate>
-            <Button Height="120" Classes="clickableTile" Command="{Binding $parent[Panel].((vm:PlaylistBottomViewModel)DataContext).NewPlaylistSong}" CommandParameter="{Binding SongID}">
-              <Grid ColumnDefinitions="*, 3*, 2*, 2*, *, *">
-                <Viewbox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                  <Image Source="{Binding Image}" />
-                </Viewbox>
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Title}" />
-                <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Artist}" />
-                <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding FirstAlbum, FallbackValue=''}" />
-                <TextBlock Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Length}" />
-                <Viewbox Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-                  <ic:SymbolIcon Foreground="CornflowerBlue" Symbol="MusicNote1" IsVisible="{Binding SongID, Converter={StaticResource currentlyPlayingConverter}, ConverterParameter=CSongID}}" />
-                </Viewbox>
-              </Grid>
-            </Button>
-          </DataTemplate>
-        </ItemsRepeater.ItemTemplate>
-      </ItemsRepeater>
-    </ScrollViewer>
+    <Border Classes="outline">
+      <ScrollViewer>
+        <ItemsRepeater ItemsSource="{Binding DisplayPlaylist.Songs}">
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+              <Button Height="120" Classes="clickableTile" Command="{Binding $parent[Panel].((vm:PlaylistBottomViewModel)DataContext).NewPlaylistSong}" CommandParameter="{Binding SongID}">
+                <Grid ColumnDefinitions="*, 3*, 2*, 2*, *, *">
+                  <Viewbox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Image Source="{Binding Image}" />
+                  </Viewbox>
+                  <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Title}" />
+                  <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Artist}" />
+                  <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding FirstAlbum, FallbackValue=''}" />
+                  <TextBlock Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Length, Converter={StaticResource lengthConverter}}" />
+                  <Grid Grid.Column="5" ColumnDefinitions="*, 2*, *" RowDefinitions="*, 2*, *">
+                    <Viewbox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                      <ic:SymbolIcon Foreground="CornflowerBlue" Symbol="MusicNote1">
+                        <ic:SymbolIcon.IsVisible>
+                            <MultiBinding Converter="{StaticResource currentlyPlayingConverter}">
+                                <Binding Path="$parent[ItemsRepeater].((vm:PlaylistBottomViewModel)DataContext).CurrentSongID" />
+                                <Binding Path="SongID" />
+                            </MultiBinding>
+                        </ic:SymbolIcon.IsVisible>
+                      </ic:SymbolIcon>
+                    </Viewbox>
+                  </Grid>
+                </Grid>
+              </Button>
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+      </ScrollViewer>
+    </Border>
   </Panel>
 </UserControl>

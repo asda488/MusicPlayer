@@ -11,6 +11,7 @@
     <Application.Resources>
         <FontFamily x:Key="UbuntuFont">avares://MusicPlayer/Assets/Fonts/Ubuntu/Ubuntu-Regular.ttf</FontFamily>
         <v:CurrentlyPlayingConverter x:Key="currentlyPlayingConverter"/>
+        <v:LengthConverter x:Key="lengthConverter"/>
     </Application.Resources> 
     <Application.Styles>
         <FluentTheme />

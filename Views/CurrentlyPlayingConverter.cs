@@ -1,14 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 
 namespace MusicPlayer.Views;
-public class CurrentlyPlayingConverter : IValueConverter {
+public class CurrentlyPlayingConverter : IMultiValueConverter  {
     public static readonly CurrentlyPlayingConverter Instance = new();
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is int sid && parameter is int cpid && targetType.IsAssignableTo(typeof(bool)))
+        if (values[0] is int sid && values[1] is int cpid && targetType.IsAssignableTo(typeof(bool)))
         {
             return sid == cpid;
         }

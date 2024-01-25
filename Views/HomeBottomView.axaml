@@ -7,7 +7,7 @@
              x:Class="MusicPlayer.Views.HomeBottomView"
              x:DataType="vm:HomeBottomViewModel">
   <Panel>
-    <Border Background="Transparent">
+    <Border Background="Transparent" Classes="outline">
       <Grid RowDefinitions="*, 5*">
         <Border Grid.Row="0" Classes="outline">
           <TextBlock Classes="heading" Text="Playlists" />
@@ -15,17 +15,17 @@
         <Panel Grid.Row="1">
           <ItemsRepeater ItemsSource="{Binding PlaylistTableau}" HorizontalAlignment="Center">
             <ItemsRepeater.Layout>
-              <UniformGridLayout ItemsStretch="Fill" Orientation="Horizontal"/>
+              <UniformGridLayout ItemsStretch="Fill" Orientation="Horizontal" MaximumRowsOrColumns="2"/>
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
                 <Border Classes="outline">
-                  <Button Classes="clickableTile" Command="{Binding $parent[Panel].((vm:HomeBottomViewModel)DataContext).NewPlaylist}" CommandParameter="{Binding PlaylistID}">
+                  <Button Classes="clickableTile" Command="{Binding $parent[Panel].((vm:HomeBottomViewModel)DataContext).EnterPlaylistCommand}" CommandParameter="{Binding PlaylistID}">
                     <StackPanel Margin="5" Orientation="Horizontal">
                       <Viewbox x:Name="PlaylistImg" Margin="5">
                         <Image Source="{Binding PlaylistImage}" />
                       </Viewbox>
-                      <Grid RowDefinitions="*, 5*">
+                      <Grid RowDefinitions="*, 5*" Margin="10, 0">
                         <TextBlock Grid.Row="0" FontSize="24" x:Name="PlaylistTitle" Text="{Binding Title}" />
                         <TextBlock Width="{Binding #PlaylistImg.Bounds.Width}" FontSize="18" TextWrapping="Wrap" Grid.Row="1" Text="{Binding Description}" />
                       </Grid>

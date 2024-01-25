@@ -10,12 +10,13 @@ namespace MusicPlayer.Models {
         public static (List<Song>, List<Playlist>) LoadData(){
             List<Song> SongList = new();
             List<Playlist> PlaylistList = new();
+            var _currentPath = Path.GetDirectoryName(AppContext.BaseDirectory) ?? "";
             using (Stream db = AssetLoader.Open(new Uri ("avares://MusicPlayer/Assets/music.db"))){
-                using (FileStream f = new FileStream(Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "music.db"), FileMode.Create, FileAccess.Write)){
+                using (FileStream f = new FileStream(Path.Combine(_currentPath, "music.db"), FileMode.Create, FileAccess.Write)){
                     db.CopyTo(f);
                 }
             }
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "music.db")};")){
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(_currentPath, "music.db")};")){
                 connection.Open();
                 SqliteCommand command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM Songs";

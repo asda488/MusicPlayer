@@ -6,7 +6,9 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MusicPlayer.Views.PlaylistsTopView"
              x:DataType="vm:PlaylistsTopViewModel">
-  <Panel HorizontalAlignment="Center" VerticalAlignment="Center">
-    <TextBlock Classes="Heading" Text="Playlists" FontSize="108"/>
-  </Panel>
+  <Border Classes="outline" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Panel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Classes="Heading" Text="Playlists" FontSize="108"/>
+    </Panel>
+  </Border>
 </UserControl>

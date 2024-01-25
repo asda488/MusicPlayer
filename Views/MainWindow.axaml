@@ -75,8 +75,8 @@
                         <Panel x:Name="TimeSlider" RelativePanel.Below="playpause" RelativePanel.AlignHorizontalCenterWithPanel="True" Width="640">
                             <Slider Maximum="{Binding Length}" Value="{Binding ElapsedConverter}"/>
                         </Panel>
-                        <TextBlock Margin="10, 0" RelativePanel.RightOf="TimeSlider" RelativePanel.AlignVerticalCenterWith="TimeSlider" Text="{Binding LengthString}" />
-                        <TextBlock Margin="10, 0" RelativePanel.LeftOf="TimeSlider" RelativePanel.AlignVerticalCenterWith="TimeSlider" Text="{Binding ElapsedString}" />
+                        <TextBlock Margin="10, 0" RelativePanel.RightOf="TimeSlider" RelativePanel.AlignVerticalCenterWith="TimeSlider" Text="{Binding Length, Converter={StaticResource lengthConverter}}" />
+                        <TextBlock Margin="10, 0" RelativePanel.LeftOf="TimeSlider" RelativePanel.AlignVerticalCenterWith="TimeSlider" Text="{Binding Elapsed, Converter={StaticResource lengthConverter}}" />
                     </RelativePanel>
                 </Border>
             </Grid>

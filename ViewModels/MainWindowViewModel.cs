@@ -27,8 +27,6 @@ public class MainWindowViewModel : ViewModelBase
     private int length;
     private int songID;
     private bool playIsChecked = true;
-    private ObservableAsPropertyHelper<string> lengthString;
-    private ObservableAsPropertyHelper<string> elapsedString;
     private ObservableAsPropertyHelper<int> elapsedConverter;
     private int elapsed;
     private Player player;
@@ -46,11 +44,9 @@ public class MainWindowViewModel : ViewModelBase
     public int SongID { get => songID; set => this.RaiseAndSetIfChanged(ref songID, value); }
     public bool PlayIsChecked { get => playIsChecked; set => this.RaiseAndSetIfChanged(ref playIsChecked, value); }
     public int Length { get => length; set => this.RaiseAndSetIfChanged(ref length, value); }
-    public string LengthString { get => lengthString.Value; }
     public int Elapsed { get => elapsed; set => this.RaiseAndSetIfChanged(ref elapsed, value); }
     public int SetElapsed { set => player.SetTime = value; }
     public int ElapsedConverter { get => elapsedConverter.Value; set => SetElapsed = value; }
-    public string ElapsedString { get => elapsedString.Value; }
     public bool Enable { get => enable; set => this.RaiseAndSetIfChanged(ref enable, value); }
     public bool Shuffle { get => shuffle; set => this.RaiseAndSetIfChanged(ref shuffle, value); }
     public bool Loop {get => loop; set => this.RaiseAndSetIfChanged(ref loop, value);}
@@ -81,8 +77,6 @@ public class MainWindowViewModel : ViewModelBase
         EnterPlaylistCommand = ReactiveCommand.Create((int pid) => {EnterPlaylist(pid);});
 
         //bindings to view
-        lengthString = this.WhenAnyValue(x => x.Length, length => $"{(length / 60).ToString()}:{(length % 60).ToString().PadLeft(2, '0')}").ToProperty(this, x => x.LengthString);
-        elapsedString = this.WhenAnyValue(x => x.Elapsed, elapsed => $"{(elapsed / 60).ToString()}:{(elapsed % 60).ToString().PadLeft(2, '0')}").ToProperty(this, x => x.ElapsedString);
         elapsedConverter = this.WhenAnyValue(x => x.Elapsed).ToProperty(this, x => x.ElapsedConverter); //manually implement the RaiseAndSetIfChanged
 
         //bindings from model
@@ -90,57 +84,61 @@ public class MainWindowViewModel : ViewModelBase
 
         //init ui
         ChangeView("Home");
+        enable = true;
     }
 
     private void EnterPlaylist(int pid){
-        ICommand NewPlaylistSong = ReactiveCommand.Create((int sid) => {playlist = playlistList[pid-1]; LoadSong(songList[sid-1]);});
+        ICommand NewPlaylistSong = ReactiveCommand.Create((int sid) => {LoadPlaylist(playlistList[pid-1]); LoadSong(songList[sid-1]);});
         TopViewModel = new PlaylistTopViewModel(playlistList[pid-1]);
-        BottomViewModel = new PlaylistBottomViewModel(playlistList[pid-1], NewPlaylistSong);
+        BottomViewModel = new PlaylistBottomViewModel(playlistList[pid-1], NewPlaylistSong, this);
     }
     private void ChangeView(string s){
         switch (s) {
             case "Home":
                 ICommand NewSong = ReactiveCommand.Create((int s) => {playlist = null; LoadSong(songList[s-1]);});
-                ICommand NewPlaylist = ReactiveCommand.Create((int p) => {LoadPlaylist(playlistList[p-1]);});
                 TopViewModel = new HomeTopViewModel(songTableau, NewSong);
-                BottomViewModel = new HomeBottomViewModel(playlistTableau, NewPlaylist);
+                BottomViewModel = new HomeBottomViewModel(playlistTableau, EnterPlaylistCommand);
                 break;
             case "Playlists":
                 TopViewModel = new PlaylistsTopViewModel();
-                BottomViewModel = new PlaylistsBottomViewModel();
+                BottomViewModel = new PlaylistsBottomViewModel(playlistList, EnterPlaylistCommand);
                 break;              
         }
     }
     private void LoadSong(Song s){
-        Enable = false;
-        Elapsed = 0;
-        player.Song = s;
-        player.LoadNew(!playIsChecked);
-        PlayerImage = player.Song.Image;
-        Title = player.Song.Title;
-        Artist = player.Song.Artist;
-        Length = player.Song.Length;
-        SongID = player.Song.SongID;
-        Enable = true;
+        if (enable){ //not-blocking will cause mayhem in ui, but blocking may affect unsafe parent functions
+            Enable = false;
+            Elapsed = 0;
+            player.Song = s;
+            player.LoadNew(!playIsChecked);
+            PlayerImage = player.Song.Image;
+            Title = player.Song.Title;
+            Artist = player.Song.Artist;
+            Length = player.Song.Length;
+            SongID = player.Song.SongID;
+            Enable = true;
+        }
+
     }
 
     private void LoadPlaylist(Playlist p){
         playlist = p;
-        LoadSong(playlist.Songs[0]);
         if (shuffle) {
             NewShuffleOrder();
         }
     }
 
     private void NewShuffleOrder(){
-        //create shuffleOrder queue
-        Queue<int> q = new(Enumerable.Range(0, playlist.Songs.Count).ToList().ToList().OrderBy(x => rand.Next()));
-        //rotate so current song is head of list
-        while (playlist.Songs[q.Peek()] != player.Song){
-            q.Enqueue(q.Dequeue());
+        if (playlist != null){ //suppress CS 8602
+            //create shuffleOrder queue
+            Queue<int> q = new(Enumerable.Range(0, playlist.Songs.Count).ToList().ToList().OrderBy(x => rand.Next()));
+            //rotate so current song is head of list
+            while (playlist.Songs[q.Peek()] != player.Song){
+                q.Enqueue(q.Dequeue());
+            }
+            //cast to list
+            shuffleOrder = [.. q];
         }
-        //cast to list
-        shuffleOrder = [.. q];
     }
     private void PopulateTableaus(){ //it is recommended to implement one's own sort function via selection sampling
         int i = 0;

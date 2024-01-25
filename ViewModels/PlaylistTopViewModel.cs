@@ -12,7 +12,7 @@ public class PlaylistTopViewModel : ViewModelBase
     private ObservableAsPropertyHelper<string> infoString;
 
     public PlaylistTopViewModel(Playlist p){
-        DisplayPlaylist = p;
+        displayPlaylist = p;
         infoString = this.WhenAnyValue(x => x.DisplayPlaylist, displayPlaylist => $"{displayPlaylist.Songs.Count} tracks • {(from l in displayPlaylist.Songs select l.Length).Sum()/60}:{(from l in displayPlaylist.Songs select l.Length).Sum()%60} runtime").ToProperty(this, x => x.InfoString);
 
     }

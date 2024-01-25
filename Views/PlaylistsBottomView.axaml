@@ -7,5 +7,29 @@
              x:Class="MusicPlayer.Views.PlaylistsBottomView"
              x:DataType="vm:PlaylistsBottomViewModel">
   <Panel>
+    <Border Classes="outline">
+      <ScrollViewer>
+        <ItemsRepeater ItemsSource="{Binding PlaylistList}" HorizontalAlignment="Center">
+          <ItemsRepeater.Layout>
+            <UniformGridLayout MinItemWidth="480" MaximumRowsOrColumns="4" MinItemHeight="{Binding $parent[Panel].Bounds.Height}" Orientation="Horizontal" ItemsStretch="Fill"/>
+          </ItemsRepeater.Layout>
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+              <Border Classes="outline">
+                <Button Classes="clickableTile" Command="{Binding $parent[Panel].((vm:PlaylistsBottomViewModel)DataContext).EnterPlaylistCommand}" CommandParameter="{Binding PlaylistID}">
+                  <Grid RowDefinitions="12*, *, 2*, 4*" Margin="24, 0">
+                    <Viewbox Grid.Row="0" HorizontalAlignment="Center">
+                      <Image Source="{Binding PlaylistImage}" />
+                    </Viewbox>
+                    <TextBlock Grid.Row="2" FontSize="18" HorizontalAlignment="Left" Text="{Binding Title}" />
+                    <TextBlock Grid.Row="3" FontSize="12" HorizontalAlignment="Left" Text="{Binding Description}" />
+                  </Grid>
+                </Button>
+              </Border>
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+      </ScrollViewer>
+    </Border>
   </Panel>
 </UserControl>

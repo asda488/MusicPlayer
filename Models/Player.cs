@@ -7,17 +7,17 @@ using ReactiveUI;
 namespace MusicPlayer.Models  {
     class Player : ReactiveObject {
         public Song? Song { get; set; }
-        public WaveOutEvent? WaveOut { get; set; }
-        public StreamMediaFoundationReader? Reader { get; set; }
+        public WaveOutEvent WaveOut { get; set; }
+        public StreamMediaFoundationReader Reader { get; set; }
         bool paused = false;
         private int time;
-        public int SetTime { set => Reader.Position = value*Reader.WaveFormat.AverageBytesPerSecond; }
+        public int SetTime { set { if (Reader != null) {Reader.Position = value*Reader.WaveFormat.AverageBytesPerSecond;}}}
         public int Time { get => time; set => this.RaiseAndSetIfChanged(ref time, value); }
 
-        public event EventHandler PlayerFinished;
+        public event EventHandler? PlayerFinished;
         protected virtual void OnPlayerFinished(EventArgs? e)
         {
-            PlayerFinished?.Invoke(this, e);
+            PlayerFinished?.Invoke(this, e ?? new EventArgs());
         }
 
         public Player(int t, Song? s){
@@ -26,35 +26,34 @@ namespace MusicPlayer.Models  {
             Task.Run(timeWorker);
         }
         public void LoadNew(bool p){
-            if (WaveOut != null){
-                WaveOut.PlaybackStopped -= Stop;
-            }
-            WaveOut?.Dispose();
-            Reader?.Dispose();
-            WaveOut = new WaveOutEvent();
-            Reader = new StreamMediaFoundationReader(AssetLoader.Open(new Uri("avares://MusicPlayer/Assets/music/"+Song.Filename)));
-            WaveOut.Init(Reader);
-            WaveOut.PlaybackStopped += Stop;
-            Reader.CurrentTime = new TimeSpan(0, 0, time);
-            if (p){
-                Play();
+            if (Song != null) { //must have loaded song, (condition here to suppress CS8602)
+                if (WaveOut != null){ //exit gracefully first
+                    WaveOut.PlaybackStopped -= Stop;
+                    WaveOut.Stop();
+                    WaveOut.Dispose();
+                    Reader.Dispose();
+                }
+                WaveOut = new WaveOutEvent();
+                Reader = new StreamMediaFoundationReader(AssetLoader.Open(new Uri("avares://MusicPlayer/Assets/music/"+Song.Filename)));
+                WaveOut.Init(Reader);
+                WaveOut.PlaybackStopped += Stop;
+                Reader.CurrentTime = new TimeSpan(0, 0, time);
+                if (p){
+                    Play();
+                }
             }
         }
 
         private async Task timeWorker(){
             while (true) {
                 await Task.Delay(50); //close enough
-                try {
+                if (Reader != null){
                     if (Time != (int)Reader.CurrentTime.TotalSeconds){
                         Time = (int)Reader.CurrentTime.TotalSeconds;
                     }
-                    
                 }
-                catch (Exception) {
-                    if (Time != 0){
-                        Time = 0;
-                    }
-
+                else if (Time != 0) {
+                    Time = 0;
                 }
             }
         }
