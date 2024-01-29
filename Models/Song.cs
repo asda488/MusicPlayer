@@ -11,9 +11,15 @@ namespace MusicPlayer.Models {
         public List<string> Artists { get; set;}
         public string Artist { get => string.Join(", ", Artists); }
         public List<string> Albums { get; set;}
-        public Bitmap? Image { get; set;}
+        public string FirstAlbum { 
+            get {
+                if (Albums.Count > 0) {return Albums[0];}
+                else {return "";}
+            }
+        }
+        public Bitmap Image { get; set;}
 
-        public Song(int SongID, string Title, int Length, string Filename, Bitmap? Image, List<string>? Artists, List<string>? Albums) {
+        public Song(int SongID, string Title, int Length, string Filename, Bitmap Image, List<string>? Artists, List<string>? Albums) {
             this.SongID = SongID;
             this.Title = Title;
             this.Length = Length;

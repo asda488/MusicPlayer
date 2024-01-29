@@ -13,20 +13,22 @@
           <TextBlock Classes="heading" Text="Music" />
         </Border>
         <Panel Grid.Row="1" VerticalAlignment="Stretch">
-          <ItemsRepeater  ItemsSource="{Binding SongTableau}" HorizontalAlignment="Center">
+          <ItemsRepeater ItemsSource="{Binding SongTableau}" HorizontalAlignment="Center">
             <ItemsRepeater.Layout>
-              <UniformGridLayout MinItemHeight="{Binding $parent[Panel].Bounds.Height}" Orientation="Horizontal" ItemsStretch="Fill" MaximumRowsOrColumns="{Binding SongTableau.Count}"/>
+              <UniformGridLayout MinItemHeight="{Binding $parent[Panel].Bounds.Height}" Orientation="Horizontal" ItemsStretch="Fill" MaximumRowsOrColumns="4"/>
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
                 <Border Classes="outline">
-                  <Grid RowDefinitions="18*, *, 2*, 2*" Margin="24, 0">
-                    <Viewbox Grid.Row="0" HorizontalAlignment="Center">
-                      <Image Source="{Binding Image}" />
-                    </Viewbox>
-                    <TextBlock Grid.Row="2" FontSize="16" HorizontalAlignment="Left" Text="{Binding Title}" />
-                    <TextBlock Grid.Row="3" FontSize="16" HorizontalAlignment="Left" Text="{Binding Artist}" />
-                  </Grid>                
+                  <Button Classes="clickableTile" Command="{Binding $parent[Panel].((vm:HomeTopViewModel)DataContext).NewSong}" CommandParameter="{Binding SongID}">
+                    <Grid RowDefinitions="18*, *, 2*, 2*" Margin="24, 0">
+                      <Viewbox Grid.Row="0" HorizontalAlignment="Center">
+                        <Image Source="{Binding Image}" />
+                      </Viewbox>
+                      <TextBlock Grid.Row="2" FontSize="16" HorizontalAlignment="Left" Text="{Binding Title}" />
+                      <TextBlock Grid.Row="3" FontSize="16" HorizontalAlignment="Left" Text="{Binding Artist}" />
+                    </Grid>
+                  </Button>
                 </Border>
               </DataTemplate>
             </ItemsRepeater.ItemTemplate>

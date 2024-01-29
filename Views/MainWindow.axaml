@@ -30,13 +30,13 @@
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
         <Border Margin="20">
-            <Grid Classes="mainGrid" ColumnDefinitions="*" RowDefinitions="3*, 3*, *">
+            <Grid x:Name="MainGrid" Classes="mainGrid" ColumnDefinitions="*" RowDefinitions="3*, 3*, *">
                 <Grid Grid.Row="0" ColumnDefinitions="*, 3*" RowDefinitions="*">
                     <Border Grid.Column="0" Classes="outline">
                         <Grid RowDefinitions="*, 2*, 2*"  ColumnDefinitions="*">
                             <TextBox Grid.Row="0" Watermark="Search" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
-                            <Button Grid.Row="1" Classes="sidePanel" Command="{Binding ChangeView}" CommandParameter="Home">Home</Button>
-                            <Button Grid.Row="2" Classes="sidePanel">Playlists</Button>
+                            <Button Grid.Row="1" Classes="sidePanel" Command="{Binding ChangeViewCommand}" CommandParameter="Home">Home</Button>
+                            <Button Grid.Row="2" Classes="sidePanel" Command="{Binding ChangeViewCommand}" CommandParameter="Playlists">Playlists</Button>
                         </Grid>
                     </Border>
                     <ContentControl Grid.Column="1" Content="{Binding TopViewModel}" />
@@ -47,9 +47,9 @@
                         <Viewbox x:Name="ImageViewbox" RelativePanel.AlignLeftWithPanel="True">
                             <Image Source="{Binding PlayerImage}" />
                         </Viewbox>
-                        <TextBlock FontSize="18" RelativePanel.RightOf="ImageViewbox" RelativePanel.AlignTopWith="ImageViewbox" Text="{Binding Title}" Margin="2, 7, 0, 0"></TextBlock>
-                        <TextBlock FontSize="18" RelativePanel.RightOf="ImageViewbox" RelativePanel.AlignBottomWith="ImageViewbox" Text="{Binding Artist}" Margin="2, 0, 0, 7"></TextBlock>
-                        <ToggleButton IsEnabled="{Binding Enable}" IsChecked="True" Command="{Binding TogglePlayPause}" CommandParameter="{Binding $self.IsChecked}" x:Name="playpause" Classes="playpause" RelativePanel.AlignHorizontalCenterWithPanel="True">     
+                        <TextBlock FontSize="18" RelativePanel.RightOf="ImageViewbox" RelativePanel.AlignTopWith="ImageViewbox" Text="{Binding Title}" Margin="5, 7, 0, 0"></TextBlock>
+                        <TextBlock FontSize="18" RelativePanel.RightOf="ImageViewbox" RelativePanel.AlignBottomWith="ImageViewbox" Text="{Binding Artist}" Margin="5, 0, 0, 7"></TextBlock>
+                        <ToggleButton IsEnabled="{Binding Enable}" IsChecked="{Binding PlayIsChecked}" Command="{Binding TogglePlayPause}" x:Name="playpause" Classes="playpause" RelativePanel.AlignHorizontalCenterWithPanel="True">     
                             <Panel>
                                 <Viewbox>  
                                     <ic:SymbolIcon Classes="play" Symbol="Play"/>
@@ -59,12 +59,12 @@
                                 </Viewbox>
                             </Panel>
                         </ToggleButton>
-                        <ToggleButton IsEnabled="{Binding Enable}" Classes="normaltoggle" RelativePanel.LeftOf="playpause">     
+                        <ToggleButton IsChecked="{Binding Shuffle}" IsEnabled="{Binding Enable}" Command="{Binding ShuffleCommand}" Classes="normaltoggle" RelativePanel.LeftOf="playpause">     
                             <Viewbox>  
                                 <ic:SymbolIcon Symbol="ArrowShuffle"/>
                             </Viewbox>
                         </ToggleButton>
-                        <ToggleButton IsEnabled="{Binding Enable}" Classes="normaltoggle" RelativePanel.RightOf="playpause">     
+                        <ToggleButton IsChecked="{Binding Loop}" IsEnabled="{Binding Enable}" Classes="normaltoggle" RelativePanel.RightOf="playpause">     
                             <Viewbox>  
                                 <ic:SymbolIcon Symbol="ArrowRepeatAll"/>
                             </Viewbox>
@@ -73,9 +73,10 @@
                             <ic:SymbolIcon Foreground="CornflowerBlue" Symbol="MusicNote2"/>
                         </Viewbox>
                         <Panel x:Name="TimeSlider" RelativePanel.Below="playpause" RelativePanel.AlignHorizontalCenterWithPanel="True" Width="640">
-                            <Slider Maximum="{Binding Length}" Value="{Binding Elapsed}"/>
+                            <Slider Maximum="{Binding Length}" Value="{Binding ElapsedConverter}"/>
                         </Panel>
-                        <TextBlock Margin="10, 0" RelativePanel.RightOf="TimeSlider" RelativePanel.AlignVerticalCenterWith="TimeSlider" Text="{Binding LengthString}" />
+                        <TextBlock Margin="10, 0" RelativePanel.RightOf="TimeSlider" RelativePanel.AlignVerticalCenterWith="TimeSlider" Text="{Binding Length, Converter={StaticResource lengthConverter}}" />
+                        <TextBlock Margin="10, 0" RelativePanel.LeftOf="TimeSlider" RelativePanel.AlignVerticalCenterWith="TimeSlider" Text="{Binding Elapsed, Converter={StaticResource lengthConverter}}" />
                     </RelativePanel>
                 </Border>
             </Grid>

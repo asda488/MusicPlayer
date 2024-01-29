@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:MusicPlayer.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="MusicPlayer.Views.PlaylistTopView"
+             x:DataType="vm:PlaylistTopViewModel">
+  <Panel>
+    <Border Classes="outline">
+      <Grid ColumnDefinitions="*, *">
+        <Viewbox Grid.Column="0" Margin="25" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Image Source="{Binding DisplayPlaylist.PlaylistImage}" />
+        </Viewbox>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+          <Grid RowDefinitions="2*, *, 5*">
+            <TextBlock Grid.Row="0" Classes="Heading" FontSize="48" Text="{Binding DisplayPlaylist.Title}" />
+            <TextBlock Grid.Row="1" FontSize="36" Text="{Binding InfoString}" />
+            <TextBlock Grid.Row="2" TextWrapping="Wrap" FontSize="24" Text="{Binding DisplayPlaylist.Description}" />
+          </Grid>
+        </StackPanel>
+      </Grid>
+    </Border>
+  </Panel>
+</UserControl>
