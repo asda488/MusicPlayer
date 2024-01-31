@@ -131,7 +131,7 @@ public class MainWindowViewModel : ViewModelBase
     private void NewShuffleOrder(){
         if (playlist != null){ //suppress CS 8602
             //create shuffleOrder queue
-            Queue<int> q = new(Enumerable.Range(0, playlist.Songs.Count).ToList().ToList().OrderBy(x => rand.Next()));
+            Queue<int> q = new(Enumerable.Range(0, playlist.Songs.Count).ToList().OrderBy(x => rand.Next()));
             //rotate so current song is head of list
             while (playlist.Songs[q.Peek()] != player.Song){
                 q.Enqueue(q.Dequeue());
