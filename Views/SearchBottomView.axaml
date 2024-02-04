@@ -13,10 +13,10 @@
         <ItemsRepeater ItemsSource="{Binding SearchResults}">
           <ItemsRepeater.ItemTemplate>
             <DataTemplate>
-              <Button Height="120" Classes="clickableTile" Command="{Binding $parent[Panel].((vm:SearchBottomViewModel)DataContext).NewPlaylistSong}" CommandParameter="{Binding SongID}">
+              <Button Height="120" Classes="clickableTile" Command="{Binding $parent[Panel].((vm:SearchBottomViewModel)DataContext).HandleSearchItem}" CommandParameter="{Binding $self.DataContext}">
                 <Grid ColumnDefinitions="*, 3*, 2*, 2*, *, *">
                   <Viewbox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Image Source="{Binding Image}" />
+                    <Image Source="{Binding ItemImage}" />
                   </Viewbox>
                   <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Title}" />
                   <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Artist, FallbackValue=''}" />
@@ -27,7 +27,7 @@
                       <ic:SymbolIcon Foreground="CornflowerBlue" Symbol="MusicNote1">
                         <ic:SymbolIcon.IsVisible>
                             <MultiBinding Converter="{StaticResource currentlyPlayingConverter}">
-                                <Binding Path="$parent[ItemsRepeater].((vm:PlaylistBottomViewModel)DataContext).CurrentSongID" />
+                                <Binding Path="$parent[ItemsRepeater].((vm:SearchBottomViewModel)DataContext).CurrentSongID" />
                                 <Binding Path="SongID" />
                             </MultiBinding>
                         </ic:SymbolIcon.IsVisible>

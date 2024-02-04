@@ -37,7 +37,7 @@ namespace MusicPlayer.Models  {
                 Reader = new StreamMediaFoundationReader(AssetLoader.Open(new Uri("avares://MusicPlayer/Assets/music/"+Song.Filename)));
                 WaveOut.Init(Reader);
                 WaveOut.PlaybackStopped += Stop;
-                Reader.CurrentTime = new TimeSpan(0, 0, time);
+                Reader.CurrentTime = new TimeSpan(0, 0, 0);
                 if (p){
                     Play();
                 }
