@@ -12,6 +12,7 @@ namespace MusicPlayer.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     public ICommand TogglePlayPause { get; }
+    public ICommand SpacebarTogglePlayPause { get; }
     public ICommand ChangeViewCommand { get; }
     public ICommand ShuffleCommand { get; }
     public ICommand EnterPlaylistCommand { get; }
@@ -77,11 +78,19 @@ public class MainWindowViewModel : ViewModelBase
             }
         });
         TogglePlayPause = ReactiveCommand.Create(() => {
-            if (playIsChecked)
+            if (playIsChecked){
                 player.Pause();
-            else
+            }
+            else{
                 player.Play();
-            });
+            }
+        });
+        SpacebarTogglePlayPause = ReactiveCommand.Create(() => {
+            if (enable){
+                PlayIsChecked = !PlayIsChecked; 
+                TogglePlayPause.Execute(null);
+                }   
+        });
         EnterKeyDown = ReactiveCommand.Create(() =>{
             if (SearchIsFocused && SearchValue.Length >= 3) { //if the query is too short, cannot return too much lest the application crashes (for larger databases)
                 EnterSearch(SearchValue);
