@@ -1,4 +1,5 @@
-//class for Playlist
+/// <summary>
+/// This class provides an object model
 using System.Collections.Generic;
 using Avalonia.Media.Imaging;
 

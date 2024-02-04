@@ -2,15 +2,23 @@ using System.Collections.Generic;
 
 namespace MusicPlayer.Models {
     public class Sort {
-        public static List<SearchItem> BubbleSortItems(List<SearchItem> list, SortCriteria criteria, bool order) { //order = true for asc, false for desc
-            bool sorted = true;
+        private static List<(SortCriteria, bool)> sortsList = [
+            (SortCriteria.Title, true),
+            (SortCriteria.Title, false),
+            (SortCriteria.Artist, true),
+            (SortCriteria.Artist, false),
+            (SortCriteria.Length, true),
+            (SortCriteria.Length, false),
+            (SortCriteria.AlbumName, true),
+            (SortCriteria.AlbumName, true)
+        ];
+        public static List<SearchItem> BubbleSortItems(List<SearchItem> list, SortCriteria criteria=SortCriteria.Title, bool order=true) { //order = true for asc, false for desc
+            bool sorted = false;
             while (!sorted){
                 sorted = true;
                 for (int i = 0; i < list.Count-1; i++){
                     if (CompareItems(list[i], list[i+1], criteria, order)) {
-                        SearchItem t = list[i];
-                        list[i] = list[i+1];
-                        list[i+1] = t;
+                        (list[i+1], list[i]) = (list[i], list[i+1]);
                         sorted = false;
                     }
                 }
@@ -18,6 +26,9 @@ namespace MusicPlayer.Models {
             return list;
         }
 
+        public static List<SearchItem> BubbleSortItems(List<SearchItem> list, int sortStringIndex){ //extra overload
+            return BubbleSortItems(list, sortsList[sortStringIndex].Item1, sortsList[sortStringIndex].Item2);
+        }
         private static bool CompareItems(SearchItem a, SearchItem b, SortCriteria c, bool o){ //returns true if a swap is needed
             //o = true for asc, false for desc
             switch(c) {
