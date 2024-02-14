@@ -4,13 +4,9 @@ using MusicPlayer.Models;
 
 namespace MusicPlayer.ViewModels;
 
-public class HomeBottomViewModel : ViewModelBase
+public class HomeBottomViewModel(List<Playlist> pl, ICommand p) : ViewModelBase
 {
-    public ICommand EnterPlaylistCommand { get; }
-    public List<Playlist> PlaylistTableau { get => playlistTableau; }
-    private List<Playlist> playlistTableau;
-    public HomeBottomViewModel(List<Playlist> pl, ICommand p){
-        playlistTableau = pl;
-        EnterPlaylistCommand = p;
-    }
+    public ICommand EnterPlaylistCommand { get; } = p; //exposes command allowing playlist page to be opened
+    public List<Playlist> PlaylistTableau { get => playlistTableau; } //exposes home page playlists as a list
+    private readonly List<Playlist> playlistTableau = pl;
 }

@@ -36,7 +36,7 @@
                 <Grid Grid.Row="0" ColumnDefinitions="*, 3*" RowDefinitions="*">
                     <Border Grid.Column="0" Classes="outline">
                         <Grid RowDefinitions="*, 2*, 2*"  ColumnDefinitions="*">
-                            <TextBox Grid.Row="0" Watermark="Search" VerticalAlignment="Center" HorizontalAlignment="Stretch" IsFocused="{Binding SearchIsFocused, Mode=OneWayToSource}" Text="{Binding SearchValue}"/>
+                            <TextBox Grid.Row="0" Watermark="Search (enter at least 3 letters)" VerticalAlignment="Center" HorizontalAlignment="Stretch" IsFocused="{Binding SearchIsFocused, Mode=OneWayToSource}" Text="{Binding SearchValue}"/>
                             <Button Grid.Row="1" Classes="sidePanel" Command="{Binding ChangeViewCommand}" CommandParameter="Home">Home</Button>
                             <Button Grid.Row="2" Classes="sidePanel" Command="{Binding ChangeViewCommand}" CommandParameter="Playlists">Playlists</Button>
                         </Grid>

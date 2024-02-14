@@ -25,9 +25,16 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Publish
-      run: dotnet publish -r win-x64 -p:PublishSingleFile=true --self-contained true
+      run: dotnet publish -r win-x64 --self-contained true
+    - name: Publish MacOS ARM64
+      run: dotnet publish -r osx-arm64 --self-contained true
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v3
       with:
-        name: dotnet-publish-exe
-        path: bin/Debug/net7.0/win-x64/publish/MusicPlayer.exe
+        name: dotnet-publish-win-x64
+        path: bin/Release/net8.0/win-x64/publish/MusicPlayer.exe
+    - name: 'Upload Artifact MacOS'
+      uses: actions/upload-artifact@v3
+      with:
+        name: dotnet-publish-osx-arm64
+        path: bin/Release/net8.0/osx-arm64/publish/MusicPlayer
