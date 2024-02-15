@@ -202,7 +202,7 @@ public class MainWindowViewModel : ViewModelBase
                 if (playlist.Songs.FindIndex(a => a == player.Song) != shuffleOrder[^1] || Loop){
                     flag = true;
                 }
-                LoadSong(playlist.Songs[shuffleOrder[(shuffleOrder.FindIndex(a => a == playlist.Songs.FindIndex(a => a == player.Song)) + 1)%shuffleOrder.Count]]);
+                LoadSong(playlist.Songs[shuffleOrder[(shuffleOrder.FindIndex(a => a == playlist.Songs.FindIndex(a => a == player.Song)) + 1)%shuffleOrder.Count]]); //truly a 0x5f3759df moment
                 if (flag){
                     player.Play();
                 }
